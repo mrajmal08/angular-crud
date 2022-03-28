@@ -1,0 +1,46 @@
+<div class="container">
+
+  <div class="m-4 row">
+    <div class="col-md-8">
+      <a class="btn btn-sm btn-success" routerLink="/addContact">
+        Add New
+      </a>
+    </div>
+    <div class="col-md-4">
+      <input class="form-control mt-2 mb-2" type="text" [(ngModel)]="searchText"  (input)="Search()" placeholder="Search by name" />
+    </div>
+  </div>
+
+  <div *ngIf="dataError" class="alert alert-danger" role="alert">
+    Something went wrong. Please try again later.
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of contacts">
+        <th scope="row">{{ data.id }}</th>
+        <td>{{ data.name }}</td>
+        <td>{{ data.email }}</td>
+        <td>{{ data.phone }}</td>
+        <td>
+          <a class="btn btn-warning btn-sm mx-2" routerLink="/edit/{{ data.id }}" >edit</a>
+          <button  class="btn btn-danger btn-sm" (click)="deleteData(data.id)" >delete</button>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<router-outlet></router-outlet>
+
+</div>
+
