@@ -34,7 +34,9 @@ export class EditcontactComponent implements OnInit {
   showSuccess() {
     this.toastr.success('Success!', 'Contact Updated Successfully!');
   }
-
+  showDanger(message:any) {
+    this.toastr.warning('Validation Error!', message);
+  }
   getData(){
 
     this.dataService.getOne(this.id).subscribe(res => {
@@ -52,7 +54,12 @@ export class EditcontactComponent implements OnInit {
       this.isUpdated= true;
       this.showSuccess();
       this.router.navigate(['/contacts'])
-    })
+    },
+    (error) => {
+      if(error.status == 422){
+        this.showDanger(error.message);
+      }
+   })
   }
 
 }

@@ -17,7 +17,8 @@ export class AddContactComponent implements OnInit {
   isAdded: boolean = false;
   contact = new Contact();
 
-  constructor(private dataService:DataService, private router: Router, private toastr: ToastrService) {
+  constructor(private dataService:DataService, private router: Router,
+    private toastr: ToastrService) {
 
   }
 
@@ -25,18 +26,27 @@ export class AddContactComponent implements OnInit {
 
   }
 
-  showSuccess() {
-    this.toastr.success('Success!', 'Contact Added Successfully!');
+  showSuccess(message:any) {
+    this.toastr.success('Success!', message);
+  }
+  showDanger(message:any) {
+    this.toastr.warning('Validation Error!', message);
   }
 
   insertData(){
 
     this.dataService.insertData(this.contact).subscribe(res => {
-      this.isAdded= true;
-      this.showSuccess();
-      this.router.navigate(['/contacts'])
+        this.isAdded= true;
+        this.showSuccess("Contact Added Successfully!");
+        this.router.navigate(['/contacts'])
 
-    })
+    },
+
+    (error) => {
+      if(error.status == 500){
+        this.showDanger(error.message);
+      }
+   })
   }
 
 
